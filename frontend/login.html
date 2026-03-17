@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - AgentOps Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .login-container {
+      max-width: 420px;
+      margin: 80px auto;
+    }
+    .login-form {
+      margin-top: 24px;
+    }
+    .login-title {
+      text-align: center;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .login-subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container login-container">
+    <h1 class="login-title">AgentOps Hub</h1>
+    <p class="login-subtitle">Please login to continue</p>
+
+    <form id="loginForm" class="login-form">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required autocomplete="username" />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required autocomplete="current-password" />
+
+      <button type="submit" style="margin-top: 20px;">Login</button>
+    </form>
+
+    <div id="error" class="error hidden"></div>
+
+    <div style="margin-top: 24px; padding: 12px; background: var(--warn-bg); border-radius: 8px; font-size: 14px;">
+      <strong>Default credentials:</strong><br>
+      Username: <code>admin</code><br>
+      Password: <code>admin123</code>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>

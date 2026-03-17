@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentOps Hub - Permission Config</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>AgentOps Hub / Permission Config</h1>
+    <nav class="nav-links">
+      <a href="index.html">Task Creation</a>
+      <a href="tools.html">Tool Catalog</a>
+      <a href="audit.html">Security Audit</a>
+    </nav>
+
+    <section class="result-card">
+      <label for="roleInput">Role</label>
+      <input id="roleInput" type="text" placeholder="operator" />
+      <label for="scopesInput">Scopes (comma separated)</label>
+      <textarea id="scopesInput" rows="3" placeholder="rag:search,rag:chunk:read"></textarea>
+      <button id="saveBtn" type="button">Save Mapping</button>
+    </section>
+
+    <section id="error" class="error"></section>
+    <table class="simple-table">
+      <thead>
+      <tr>
+        <th>role</th>
+        <th>scopes</th>
+        <th>actions</th>
+      </tr>
+      </thead>
+      <tbody id="permissionBody"></tbody>
+    </table>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="permissions.js"></script>
+</body>
+</html>

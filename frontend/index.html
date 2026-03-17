@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentOps Hub - Task Creation</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>AgentOps Hub / Task Creation</h1>
+    <p>在这里创建 task，然后到 detail page 查看执行状态与结果。</p>
+
+    <nav class="nav-links">
+      <a href="docs.html">Docs Management</a>
+      <a href="rag.html">RAG Debug</a>
+      <a href="tools.html">Tool Catalog</a>
+      <a href="permissions.html">Permission Config</a>
+      <a href="audit.html">Security Audit</a>
+    </nav>
+
+    <form id="taskForm">
+      <label for="prompt">Prompt</label>
+      <textarea id="prompt" name="prompt" rows="5" required></textarea>
+
+      <label for="outputFormat">Output Format</label>
+      <select id="outputFormat" name="outputFormat">
+        <option value="both">both</option>
+        <option value="markdown">markdown</option>
+        <option value="json">json</option>
+      </select>
+
+      <label for="docIds">Doc IDs (placeholder for docs/rag integration)</label>
+      <textarea id="docIds" name="docIds" rows="3" placeholder="例如: doc-1,doc-2"></textarea>
+
+      <button type="submit">Create Task</button>
+    </form>
+
+    <section id="result" class="result"></section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

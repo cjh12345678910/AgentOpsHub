@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentOps Hub - Task Detail</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>AgentOps Hub / Task Detail</h1>
+    <div id="meta"></div>
+    <button id="cancelTaskBtn" type="button">Cancel Task</button>
+
+    <section class="trace-entry">
+      <h2>Replay Entry</h2>
+      <p id="traceHint" class="muted">trace availability 检查中...</p>
+      <a id="replayLink" class="button-link hidden" href="#">Go to Replay Timeline</a>
+      <div id="failureSummary" class="error"></div>
+    </section>
+
+    <div class="views">
+      <section>
+        <h2>Markdown View</h2>
+        <pre id="markdownView"></pre>
+      </section>
+      <section>
+        <h2>JSON View</h2>
+        <pre id="jsonView"></pre>
+      </section>
+    </div>
+
+    <section>
+      <h2>Citations</h2>
+      <ul id="citationsView" class="muted"></ul>
+    </section>
+
+    <section class="result-card">
+      <h2>Artifacts</h2>
+      <div id="artifactsSummaryView" class="muted">not available</div>
+      <div id="artifactsListView" class="muted">not available</div>
+    </section>
+
+    <section class="result-card">
+      <h2>Verifier Report</h2>
+      <p id="finalDecisionView" class="muted">finalDecision: not available</p>
+      <pre id="verifierReportView">not available</pre>
+    </section>
+
+    <section class="result-card">
+      <h2>Repair Rounds</h2>
+      <div id="repairRoundsView" class="muted">not available</div>
+    </section>
+
+    <section class="result-card">
+      <h2>Model Usage</h2>
+      <pre id="modelUsageView">not available</pre>
+    </section>
+
+    <section class="result-card">
+      <h2>Final Answer</h2>
+      <pre id="finalAnswerView">not available</pre>
+    </section>
+
+    <section class="result-card">
+      <h2>PLAN Parse Diagnostics</h2>
+      <p id="parserStageView" class="muted">stage: not available</p>
+      <p id="usageUnavailableReasonView" class="muted">usage missing reason: not available</p>
+      <pre id="rawResponseSnippetView">not available</pre>
+    </section>
+
+    <section id="error" class="error"></section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="task.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentOps Hub - RAG Debug</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>AgentOps Hub / RAG Debug</h1>
+    <p><a href="index.html">Back to Task Creation</a> | <a href="docs.html">Go to Docs Management</a></p>
+
+    <form id="ragForm">
+      <label for="query">Query</label>
+      <textarea id="query" rows="3" required></textarea>
+
+      <label for="docIds">Doc IDs (comma/newline separated)</label>
+      <textarea id="docIds" rows="3" placeholder="doc-xxx, doc-yyy" required></textarea>
+
+      <label for="topK">topK</label>
+      <input id="topK" type="number" min="1" max="20" value="5" />
+
+      <button type="submit">Search</button>
+    </form>
+
+    <section id="ragState" class="muted"></section>
+    <section id="ragMeta" class="muted"></section>
+    <section id="ragError" class="error"></section>
+    <section id="ragResults"></section>
+    <section id="chunkDetail" class="hidden"></section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="rag.js"></script>
+</body>
+</html>

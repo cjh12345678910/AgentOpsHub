@@ -1,0 +1,108 @@
+server:
+  port: ${APP_PORT:8080}
+  address: 0.0.0.0
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/agentops_hub}
+    username: ${SPRING_DATASOURCE_USERNAME:agentops}
+    password: ${SPRING_DATASOURCE_PASSWORD:agentops}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+      timeout: 2000ms
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        acknowledge-mode: manual
+        default-requeue-rejected: false
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+app:
+  security:
+    jwt:
+      secret: ${APP_JWT_SECRET:changeme-this-is-a-very-long-secret-key-for-jwt-signing-at-least-256-bits}
+      expiration-ms: ${APP_JWT_EXPIRATION_MS:86400000}
+      issuer: ${APP_JWT_ISSUER:agentops-hub}
+  cors:
+    allowed-origin-patterns: ${APP_CORS_ALLOWED_ORIGIN_PATTERNS:http://localhost:5173,http://127.0.0.1:5173,http://*:5173}
+  cache:
+    task-status-ttl-seconds: ${APP_TASK_STATUS_CACHE_TTL_SECONDS:300}
+  docs:
+    max-upload-bytes: ${APP_DOCS_MAX_UPLOAD_BYTES:2097152}
+    pdf-enabled: ${APP_DOCS_PDF_ENABLED:true}
+    max-chunks-per-doc: ${APP_DOCS_MAX_CHUNKS_PER_DOC:400}
+    chunk-size: ${APP_DOCS_CHUNK_SIZE:500}
+    chunk-overlap-chars: ${APP_DOCS_CHUNK_OVERLAP_CHARS:80}
+  rag:
+    topk-default: ${APP_RAG_TOPK_DEFAULT:5}
+    topk-max: ${APP_RAG_TOPK_MAX:20}
+    search:
+      allow-lexical-fallback: ${APP_RAG_ALLOW_LEXICAL_FALLBACK:true}
+      recall-candidate-multiplier: ${APP_RAG_RECALL_CANDIDATE_MULTIPLIER:3}
+      recall-candidate-cap: ${APP_RAG_RECALL_CANDIDATE_CAP:100}
+      rerank-lexical-weight: ${APP_RAG_RERANK_LEXICAL_WEIGHT:0.15}
+      rerank-timeout-ms: ${APP_RAG_RERANK_TIMEOUT_MS:25}
+    embedding:
+      enabled: ${APP_RAG_EMBEDDING_ENABLED:true}
+      provider: ${APP_RAG_EMBEDDING_PROVIDER:local-hash}
+      model: ${APP_RAG_EMBEDDING_MODEL:local-hash-v1}
+      dimension: ${APP_RAG_EMBEDDING_DIMENSION:64}
+      fallback-to-local-hash: ${APP_RAG_EMBEDDING_FALLBACK_TO_LOCAL_HASH:true}
+      openai:
+        base-url: ${APP_RAG_EMBEDDING_OPENAI_BASE_URL:https://api.openai.com/v1}
+        api-key: ${APP_RAG_EMBEDDING_OPENAI_API_KEY:}
+        timeout-ms: ${APP_RAG_EMBEDDING_OPENAI_TIMEOUT_MS:10000}
+        retry-max: ${APP_RAG_EMBEDDING_OPENAI_RETRY_MAX:1}
+      backfill-batch-size: ${APP_RAG_EMBEDDING_BACKFILL_BATCH_SIZE:200}
+  agent:
+    dispatch:
+      mode: ${APP_AGENT_DISPATCH_MODE:threadpool}
+      pool-size: ${APP_AGENT_DISPATCH_POOL_SIZE:4}
+      queue-capacity: ${APP_AGENT_DISPATCH_QUEUE_CAPACITY:200}
+    runtime:
+      enabled: ${APP_AGENT_RUNTIME_ENABLED:true}
+      base-url: ${APP_AGENT_RUNTIME_BASE_URL:http://127.0.0.1:18080}
+      connect-timeout-ms: ${APP_AGENT_RUNTIME_CONNECT_TIMEOUT_MS:5000}
+      read-timeout-ms: ${APP_AGENT_RUNTIME_READ_TIMEOUT_MS:60000}
+      retry-max: ${APP_AGENT_RUNTIME_RETRY_MAX:2}
+      local-fallback-enabled: ${APP_AGENT_RUNTIME_LOCAL_FALLBACK_ENABLED:false}
+      repair-enabled: ${APP_AGENT_RUNTIME_REPAIR_ENABLED:true}
+      max-repair-rounds: ${APP_AGENT_RUNTIME_MAX_REPAIR_ROUNDS:2}
+      verifier-coverage-threshold: ${APP_AGENT_RUNTIME_VERIFIER_COVERAGE_THRESHOLD:0.70}
+    llm:
+      provider: ${APP_AGENT_LLM_PROVIDER:openai-compatible}
+      model: ${APP_AGENT_LLM_MODEL:gpt-4o-mini}
+      timeout-ms: ${APP_AGENT_LLM_TIMEOUT_MS:8000}
+      retry-max: ${APP_AGENT_LLM_RETRY_MAX:1}
+      base-url: ${APP_AGENT_LLM_BASE_URL:https://api.openai.com/v1}
+  task:
+    artifacts:
+      base-dir: ${APP_TASK_ARTIFACTS_BASE_DIR:/tmp/agentops_outputs}
+      download-enabled: ${APP_TASK_ARTIFACTS_DOWNLOAD_ENABLED:true}
+    queue:
+      exchange: ${APP_TASK_QUEUE_EXCHANGE:task.exchange}
+      routing-key: ${APP_TASK_QUEUE_ROUTING_KEY:task.dispatch}
+      retry-routing-key: ${APP_TASK_QUEUE_RETRY_ROUTING_KEY:task.retry}
+      dead-letter-exchange: ${APP_TASK_QUEUE_DLX:task.dlx}
+      dead-letter-routing-key: ${APP_TASK_QUEUE_DLX_ROUTING_KEY:task.dead}
+      main-queue: ${APP_TASK_QUEUE_MAIN_QUEUE:task.queue}
+      retry-queue: ${APP_TASK_QUEUE_RETRY_QUEUE:task.queue.retry}
+      dead-letter-queue: ${APP_TASK_QUEUE_DLQ:task.dlq}
+      max-retries: ${APP_TASK_QUEUE_MAX_RETRIES:3}
+      base-backoff-ms: ${APP_TASK_QUEUE_BASE_BACKOFF_MS:5000}
+      backoff-multiplier: ${APP_TASK_QUEUE_BACKOFF_MULTIPLIER:2}
+      consumer-prefetch: ${APP_TASK_QUEUE_CONSUMER_PREFETCH:1}
+      consumer-concurrency: ${APP_TASK_QUEUE_CONSUMER_CONCURRENCY:2}

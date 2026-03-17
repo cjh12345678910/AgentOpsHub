@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentOps Hub - Security Audit</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>AgentOps Hub / Security Audit</h1>
+    <nav class="nav-links">
+      <a href="index.html">Task Creation</a>
+      <a href="tools.html">Tool Catalog</a>
+      <a href="permissions.html">Permission Config</a>
+    </nav>
+
+    <section class="result-card">
+      <label for="decisionFilter">policyDecision</label>
+      <select id="decisionFilter">
+        <option value="">all</option>
+        <option value="deny">deny</option>
+        <option value="allow">allow</option>
+      </select>
+      <label for="limitInput">limit</label>
+      <input id="limitInput" type="number" min="1" max="500" value="100" />
+      <button id="queryBtn" type="button">Query</button>
+    </section>
+
+    <section id="error" class="error"></section>
+    <table class="simple-table">
+      <thead>
+      <tr>
+        <th>time</th>
+        <th>task/tool</th>
+        <th>policy</th>
+        <th>scope</th>
+        <th>error</th>
+      </tr>
+      </thead>
+      <tbody id="auditBody"></tbody>
+    </table>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="audit.js"></script>
+</body>
+</html>

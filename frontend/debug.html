@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debug - Token 诊断</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Token 诊断工具</h1>
+
+    <section>
+      <h2>当前状态</h2>
+      <div id="status" style="padding: 20px; background: #f5f5f5; border-radius: 4px; margin: 20px 0;">
+        <p><strong>Token 存在:</strong> <span id="tokenExists"></span></p>
+        <p><strong>Token 值:</strong> <code id="tokenValue" style="word-break: break-all;"></code></p>
+        <p><strong>用户信息:</strong> <span id="userInfo"></span></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>操作</h2>
+      <button onclick="clearToken()" style="margin: 10px; padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        清除 Token（需要重新登录）
+      </button>
+      <button onclick="testRequest()" style="margin: 10px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        测试请求（查看是否带 Token）
+      </button>
+    </section>
+
+    <section>
+      <h2>测试结果</h2>
+      <pre id="testResult" style="padding: 20px; background: #f5f5f5; border-radius: 4px; margin: 20px 0; white-space: pre-wrap;"></pre>
+    </section>
+
+    <p><a href="index.html">返回首页</a></p>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    const apiBaseUrl = (window.__APP_CONFIG && window.__APP_CONFIG.API_BASE_URL) || "http://localhost:8080";
+
+    // 显示当前状态
+    function updateStatus() {
+      const token = localStorage.getItem('agentops_auth_token');
+      const user = localStorage.getItem('agentops_auth_user');
+
+      document.getElementById('tokenExists').textContent = token ? '是' : '否';
+      document.getElementById('tokenValue').textContent = token || '(无)';
+      document.getElementById('userInfo').textContent = user || '(无)';
+    }
+
+    // 清除 token
+    function clearToken() {
+      if (confirm('确定要清除登录状态吗？清除后需要重新登录。')) {
+        localStorage.clear();
+        alert('已清除！现在可以重新登录了。');
+        updateStatus();
+      }
+    }
+
+    // 测试请求
+    async function testRequest() {
+      const resultDiv = document.getElementById('testResult');
+      resultDiv.textContent = '正在测试...\n';
+
+      try {
+        // 获取 token
+        const token = localStorage.getItem('agentops_auth_token');
+        resultDiv.textContent += `\n1. Token 存在: ${token ? '是' : '否'}\n`;
+
+        if (token) {
+          resultDiv.textContent += `2. Token 值: ${token.substring(0, 20)}...\n`;
+        }
+
+        // 构造请求
+        const headers = {
+          'Content-Type': 'application/json',
+        };
+
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        resultDiv.textContent += `\n3. 请求 headers:\n${JSON.stringify(headers, null, 2)}\n`;
+
+        // 发送测试请求（使用 GET 而不是 POST，避免真的创建任务）
+        resultDiv.textContent += `\n4. 发送请求到: ${apiBaseUrl}/api/tasks\n`;
+
+        const response = await fetch(`${apiBaseUrl}/api/tasks`, {
+          method: 'GET',
+          headers: headers
+        });
+
+        resultDiv.textContent += `\n5. 响应状态: ${response.status} ${response.statusText}\n`;
+
+        const data = await response.json();
+        resultDiv.textContent += `\n6. 响应数据:\n${JSON.stringify(data, null, 2)}\n`;
+
+        if (response.status === 401) {
+          resultDiv.textContent += `\n⚠️ 401 错误：说明 token 无效或未发送！\n`;
+        } else if (response.ok) {
+          resultDiv.textContent += `\n✅ 请求成功！Token 正常工作。\n`;
+        }
+
+      } catch (error) {
+        resultDiv.textContent += `\n❌ 错误: ${error.message}\n`;
+      }
+    }
+
+    // 页面加载时更新状态
+    updateStatus();
+  </script>
+</body>
+</html>

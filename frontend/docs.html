@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentOps Hub - Docs Management</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>AgentOps Hub / Docs Management</h1>
+    <p><a href="index.html">Back to Task Creation</a> | <a href="rag.html">Go to RAG Debug</a></p>
+
+    <section>
+      <h2>Upload Document</h2>
+      <form id="uploadForm">
+        <input id="docFile" type="file" accept=".txt,.md,.pdf" required />
+        <button type="submit">Upload</button>
+      </form>
+      <p id="uploadMessage" class="muted"></p>
+    </section>
+
+    <section>
+      <h2>Document List</h2>
+      <button id="refreshDocs" type="button">Refresh</button>
+      <div id="docsLoading" class="muted hidden">Loading docs...</div>
+      <div id="docsError" class="error hidden"></div>
+      <div id="docsEmpty" class="muted hidden">No docs uploaded yet.</div>
+      <div id="docsTable"></div>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="docs.js"></script>
+</body>
+</html>
